@@ -1,46 +1,16 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
+import { Mail, Phone, MapPin, ArrowUpRight, Send } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { personal } from '../data/resume'
-import { SectionHeader } from './About'
+import SectionHeader from './SectionHeader'
 
-const contactItems = [
-  {
-    icon: <Mail size={20} />,
-    label: 'Email',
-    value: personal.email,
-    href: `mailto:${personal.email}`,
-    color: 'text-indigo-400 bg-indigo-500/15',
-  },
-  {
-    icon: <FaGithub size={20} />,
-    label: 'GitHub',
-    value: 'github.com/anilmeran09',
-    href: personal.github,
-    color: 'text-slate-300 bg-slate-500/15',
-  },
-  {
-    icon: <FaLinkedin size={20} />,
-    label: 'LinkedIn',
-    value: 'linkedin.com/in/anilmeran',
-    href: personal.linkedin,
-    color: 'text-blue-400 bg-blue-500/15',
-  },
-  {
-    icon: <Phone size={20} />,
-    label: 'Phone',
-    value: personal.phone,
-    href: `tel:${personal.phone}`,
-    color: 'text-emerald-400 bg-emerald-500/15',
-  },
-  {
-    icon: <MapPin size={20} />,
-    label: 'Location',
-    value: personal.location,
-    href: null,
-    color: 'text-orange-400 bg-orange-500/15',
-  },
+const ITEMS = [
+  { icon: <Mail size={18} />,       label: 'Email',    value: personal.email,              href: `mailto:${personal.email}`, accent: '#915EFF' },
+  { icon: <FaGithub size={18} />,   label: 'GitHub',   value: 'github.com/anilmeran09',    href: personal.github,            accent: '#C4B5FD' },
+  { icon: <FaLinkedin size={18} />, label: 'LinkedIn', value: 'linkedin.com/in/anilmeran', href: personal.linkedin,          accent: '#00D4FF' },
+  { icon: <Phone size={18} />,      label: 'Phone',    value: personal.phone,              href: `tel:${personal.phone}`,    accent: '#6EE7B7' },
+  { icon: <MapPin size={18} />,     label: 'Location', value: personal.location,           href: null,                       accent: '#FCD34D' },
 ]
 
 export default function Contact() {
@@ -48,80 +18,75 @@ export default function Contact() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="contact" className="section-padding max-w-6xl mx-auto">
-      <SectionHeader label="06. Contact" title="Get In Touch" />
+    <section id="contact">
+      <div className="section-wrap">
+        <SectionHeader number="06" subtitle="Let's Talk" title="Get In Touch" />
 
-      <div ref={ref} className="grid md:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7 }}
-        >
-          <h3 className="text-2xl font-bold text-white mb-4">
-            Let&apos;s work together
-          </h3>
-          <p className="text-slate-400 leading-relaxed mb-6">
-            I&apos;m always open to discussing new opportunities, interesting projects, or anything related to
-            backend engineering, AI systems, and data pipelines. Drop me a message!
-          </p>
-
-          <a
-            href={`mailto:${personal.email}`}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-indigo-500/25"
+        <div ref={ref} className="grid md:grid-cols-2 gap-14 items-center">
+          {/* Left */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7 }}
           >
-            <Mail size={16} />
-            Send me an email
-            <ArrowUpRight size={14} />
-          </a>
-        </motion.div>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4 leading-tight">
+              Open to new{' '}
+              <span className="gradient-text">opportunities</span>
+            </h3>
+            <p className="text-slate-400 leading-relaxed mb-8">
+              Whether it&apos;s a full-time role, a freelance project, or just a conversation about
+              backend engineering and AI — I&apos;d love to connect. Drop me a line!
+            </p>
 
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="grid gap-3"
-        >
-          {contactItems.map((item, i) => {
-            const content = (
-              <div
-                key={item.label}
-                className="glass rounded-xl p-4 flex items-center gap-4 hover:border-indigo-500/25 transition-colors duration-200 group"
-              >
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${item.color}`}>
-                  {item.icon}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs text-slate-500 mb-0.5">{item.label}</p>
-                  <p className="text-sm text-slate-300 group-hover:text-white transition-colors truncate">{item.value}</p>
-                </div>
-                {item.href && <ArrowUpRight size={14} className="text-slate-600 group-hover:text-slate-400 transition-colors ml-auto flex-shrink-0" />}
-              </div>
-            )
+            <motion.a
+              href={`mailto:${personal.email}`}
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.97 }}
+              className="btn-neon inline-flex items-center gap-2.5"
+            >
+              <Send size={15} />
+              Send me an email
+              <ArrowUpRight size={14} />
+            </motion.a>
+          </motion.div>
 
-            return item.href ? (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                target={item.href.startsWith('http') ? '_blank' : undefined}
-                rel="noreferrer"
-                initial={{ opacity: 0, y: 15 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
-              >
-                {content}
-              </motion.a>
-            ) : (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 15 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
-              >
-                {content}
-              </motion.div>
-            )
-          })}
-        </motion.div>
+          {/* Right */}
+          <div className="grid gap-3">
+            {ITEMS.map((item, i) => {
+              const card = (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.15 + i * 0.09 }}
+                  whileHover={{ x: 8, scale: 1.025 }}
+                  className="glass-card shine flex items-center gap-4 p-4"
+                  style={{ borderColor: `${item.accent}20` }}
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${item.accent}18`, color: item.accent, boxShadow: `0 0 14px ${item.accent}30` }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest mb-0.5">{item.label}</p>
+                    <p className="text-sm text-slate-300 truncate">{item.value}</p>
+                  </div>
+                  {item.href && <ArrowUpRight size={13} className="text-slate-700 flex-shrink-0" />}
+                </motion.div>
+              )
+
+              return item.href ? (
+                <a key={item.label} href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
+                  {card}
+                </a>
+              ) : (
+                <div key={item.label}>{card}</div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )

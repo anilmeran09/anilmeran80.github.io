@@ -1,142 +1,134 @@
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, ArrowDown } from 'lucide-react'
+import { Mail, MapPin, ArrowDown } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { personal } from '../data/resume'
 
+const STATS = [
+  { value: '2.5+', label: 'Years Exp.' },
+  { value: '10+', label: 'Projects' },
+  { value: '30+', label: 'Tech Skills' },
+  { value: '3', label: 'Companies' },
+]
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+}
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+}
+
 export default function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
-    >
-      {/* Background blobs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #6366f1, transparent)' }}
-        />
-        <div
-          className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #06b6d4, transparent)' }}
-        />
-        <div
-          className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full opacity-5 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #a855f7, transparent)' }}
-        />
-      </div>
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Left content */}
+      <div className="relative z-10 w-full md:w-[55%] px-6 md:px-16 lg:px-24 pt-20">
+        <motion.div variants={stagger} initial="hidden" animate="show">
+          {/* Label */}
+          <motion.p variants={fadeUp} className="font-mono text-[#00D4FF] text-sm tracking-[0.3em] uppercase mb-4">
+            Hello, World! I&apos;m
+          </motion.p>
 
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(99,102,241,1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,1) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }}
-      />
+          {/* Name */}
+          <motion.h1 variants={fadeUp} className="font-black leading-none mb-2">
+            <span
+              className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl gradient-text"
+              style={{ filter: 'drop-shadow(0 0 40px rgba(145,94,255,0.45))' }}
+            >
+              Anil
+            </span>
+            <span
+              className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white"
+              style={{ filter: 'drop-shadow(0 0 20px rgba(255,255,255,0.1))' }}
+            >
+              Meran
+            </span>
+          </motion.h1>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="font-mono text-indigo-400 text-sm mb-4 tracking-widest uppercase"
-        >
-          Hello, I&apos;m
-        </motion.p>
+          {/* Role badge */}
+          <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 mt-5 mb-6">
+            {['Backend', 'Data', 'ML Engineer'].map((t, i) => (
+              <span
+                key={t}
+                className="tag text-xs font-bold tracking-widest"
+                style={{
+                  background: i === 0 ? 'rgba(145,94,255,0.15)' : i === 1 ? 'rgba(0,212,255,0.15)' : 'rgba(255,107,107,0.15)',
+                  border: `1px solid ${i === 0 ? 'rgba(145,94,255,0.4)' : i === 1 ? 'rgba(0,212,255,0.4)' : 'rgba(255,107,107,0.4)'}`,
+                  color: i === 0 ? '#c4b5fd' : i === 1 ? '#67e8f9' : '#fca5a5',
+                }}
+              >
+                {t}
+              </span>
+            ))}
+          </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight"
-        >
-          <span className="gradient-text">{personal.name}</span>
-        </motion.h1>
+          {/* Summary */}
+          <motion.p variants={fadeUp} className="text-slate-400 leading-relaxed text-sm md:text-base max-w-xl mb-8">
+            Versatile engineer with <span className="text-white font-semibold">2.5+ years</span> building{' '}
+            <span className="text-[#915EFF] font-semibold">scalable APIs</span>, real-time AI systems, and
+            multi-tenant SaaS platforms. Expert in{' '}
+            <span className="text-[#00D4FF] font-semibold">FastAPI, LangChain, Azure OpenAI</span> and cloud infrastructure.
+          </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex items-center justify-center gap-3 mb-6"
-        >
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-indigo-500" />
-          <p className="text-xl md:text-2xl text-slate-300 font-medium">{personal.subtitle}</p>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyan-500" />
-        </motion.div>
+          {/* Info chips */}
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-8">
+            <span className="flex items-center gap-1.5 text-xs text-slate-500 px-3 py-1.5 rounded-full border border-white/8 bg-white/[0.03]">
+              <MapPin size={11} className="text-[#915EFF]" /> {personal.location}
+            </span>
+            <a href={`mailto:${personal.email}`} className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 px-3 py-1.5 rounded-full border border-white/8 bg-white/[0.03] hover:border-[rgba(145,94,255,0.3)] transition-all">
+              <Mail size={11} className="text-[#00D4FF]" /> {personal.email}
+            </a>
+          </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-10"
-        >
-          {personal.summary.slice(0, 200)}...
-        </motion.p>
+          {/* CTA */}
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-12">
+            <a href={personal.github} target="_blank" rel="noreferrer" className="btn-neon flex items-center gap-2">
+              <FaGithub size={16} /> GitHub
+            </a>
+            <a href={personal.linkedin} target="_blank" rel="noreferrer" className="btn-outline flex items-center gap-2">
+              <FaLinkedin size={16} /> LinkedIn
+            </a>
+            <button
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="btn-outline flex items-center gap-2"
+            >
+              <Mail size={14} /> Contact Me
+            </button>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-3 mb-10"
-        >
-          <InfoBadge icon={<MapPin size={14} />} label={personal.location} />
-          <InfoBadge icon={<Mail size={14} />} label={personal.email} href={`mailto:${personal.email}`} />
-          <InfoBadge icon={<Phone size={14} />} label={personal.phone} />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex items-center justify-center gap-4"
-        >
-          <SocialBtn href={personal.github} icon={<FaGithub size={18} />} label="GitHub" />
-          <SocialBtn href={personal.linkedin} icon={<FaLinkedin size={18} />} label="LinkedIn" />
-          <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-6 py-2.5 rounded-full text-sm font-semibold text-white border border-indigo-500/50 hover:border-indigo-400 hover:bg-indigo-500/10 transition-all duration-200"
-          >
-            Get In Touch
-          </button>
+          {/* Stats */}
+          <motion.div variants={fadeUp} className="grid grid-cols-4 gap-4">
+            {STATS.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-2xl md:text-3xl font-black gradient-text mb-0.5">{s.value}</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{s.label}</p>
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
 
+      {/* Right side — transparent, 3D planet shows through */}
+      <div className="hidden md:block w-[45%]" />
+
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
       >
+        <span className="text-[10px] text-slate-600 font-mono tracking-[0.25em] uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="text-slate-600 cursor-pointer"
+          transition={{ duration: 1.8, repeat: Infinity }}
           onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+          className="text-slate-700 hover:text-[#915EFF] transition-colors"
         >
-          <ArrowDown size={22} />
+          <ArrowDown size={18} />
         </motion.div>
       </motion.div>
     </section>
-  )
-}
-
-function InfoBadge({ icon, label, href }) {
-  const cls =
-    'flex items-center gap-2 px-4 py-2 rounded-full glass text-slate-400 text-sm hover:text-slate-200 transition-colors duration-200'
-  if (href) return <a href={href} className={cls}>{icon}{label}</a>
-  return <span className={cls}>{icon}{label}</span>
-}
-
-function SocialBtn({ href, icon, label }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white transition-all duration-200 shadow-lg shadow-indigo-500/20"
-    >
-      {icon}
-      {label}
-    </a>
   )
 }

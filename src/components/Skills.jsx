@@ -1,54 +1,77 @@
-import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { skills } from '../data/resume'
-import { SectionHeader } from './About'
+import SectionHeader from './SectionHeader'
 
-const categoryColors = {
-  'Languages & Core': 'from-indigo-500/20 to-indigo-600/10 border-indigo-500/25 text-indigo-300',
-  'Frameworks & APIs': 'from-cyan-500/20 to-cyan-600/10 border-cyan-500/25 text-cyan-300',
-  'Databases': 'from-emerald-500/20 to-emerald-600/10 border-emerald-500/25 text-emerald-300',
-  'AI / ML / GenAI': 'from-purple-500/20 to-purple-600/10 border-purple-500/25 text-purple-300',
-  'Cloud & DevOps': 'from-orange-500/20 to-orange-600/10 border-orange-500/25 text-orange-300',
-  'Background & Queues': 'from-rose-500/20 to-rose-600/10 border-rose-500/25 text-rose-300',
-  'Frontend': 'from-sky-500/20 to-sky-600/10 border-sky-500/25 text-sky-300',
-  'Other Tools': 'from-yellow-500/20 to-yellow-600/10 border-yellow-500/25 text-yellow-300',
-}
+const CATS = [
+  { name: 'Languages & Core',   accent: '#915EFF', emoji: '⚡' },
+  { name: 'Frameworks & APIs',  accent: '#00D4FF', emoji: '🔌' },
+  { name: 'Databases',          accent: '#6EE7B7', emoji: '🗄️' },
+  { name: 'AI / ML / GenAI',    accent: '#F9A8D4', emoji: '🤖' },
+  { name: 'Cloud & DevOps',     accent: '#FCD34D', emoji: '☁️' },
+  { name: 'Background & Queues',accent: '#FF6B6B', emoji: '⚙️' },
+  { name: 'Frontend',           accent: '#67E8F9', emoji: '🎨' },
+  { name: 'Other Tools',        accent: '#C4B5FD', emoji: '🛠️' },
+]
 
 export default function Skills() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="skills" className="section-padding max-w-6xl mx-auto">
-      <SectionHeader label="04. Skills" title="Tech Stack" />
+    <section id="skills">
+      <div className="section-wrap">
+        <SectionHeader number="04" subtitle="What I Use" title="Skills" />
 
-      <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        {Object.entries(skills).map(([category, items], catIdx) => {
-          const colorClass = categoryColors[category] || 'from-slate-500/20 to-slate-600/10 border-slate-500/25 text-slate-300'
-          return (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: catIdx * 0.07 }}
-              className="glass rounded-2xl p-5"
-            >
-              <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
-                {category}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {items.map((skill) => (
-                  <span
-                    key={skill}
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border bg-gradient-to-r ${colorClass}`}
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          )
-        })}
+        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {CATS.map((cat, i) => {
+            const items = skills[cat.name] || []
+            return (
+              <motion.div
+                key={cat.name}
+                initial={{ opacity: 0, y: 40 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: i * 0.07 }}
+                whileHover={{ y: -7, scale: 1.03 }}
+                className="glass-card shine relative overflow-hidden p-5 flex flex-col gap-4"
+                style={{ borderColor: `${cat.accent}22` }}
+              >
+                {/* Top bar */}
+                <div className="absolute top-0 left-0 right-0 h-0.5"
+                  style={{ background: `linear-gradient(to right, ${cat.accent}, transparent)` }} />
+
+                {/* Glow */}
+                <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full blur-2xl opacity-15 pointer-events-none"
+                  style={{ background: cat.accent }} />
+
+                <div className="flex items-center gap-2.5">
+                  <span className="text-lg leading-none">{cat.emoji}</span>
+                  <h3 className="text-xs font-bold uppercase tracking-widest" style={{ color: cat.accent }}>
+                    {cat.name}
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {items.map((skill) => (
+                    <motion.span
+                      key={skill}
+                      whileHover={{ scale: 1.12, y: -2 }}
+                      transition={{ duration: 0.15 }}
+                      className="tag text-[11px]"
+                      style={{
+                        background: `${cat.accent}12`,
+                        border: `1px solid ${cat.accent}28`,
+                        color: cat.accent,
+                      }}
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

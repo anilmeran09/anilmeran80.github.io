@@ -1,3 +1,5 @@
+import ThreeScene from './components/ThreeScene'
+import CustomCursor from './components/CustomCursor'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -10,18 +12,33 @@ import Footer from './components/Footer'
 
 export default function App() {
   return (
-    <div className="min-h-screen" style={{ background: '#0a0e1a' }}>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Skills />
-        <Education />
-        <Contact />
-      </main>
-      <Footer />
+    <div style={{ background: '#050816', minHeight: '100vh' }}>
+      {/* Custom cursor */}
+      <CustomCursor />
+
+      {/* Fixed 3D canvas — always behind content */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+        <ThreeScene />
+      </div>
+
+      {/* Scrollable content */}
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <Navbar />
+        <main>
+          <Hero />
+
+          {/* Sections with subtle backdrop so stars peek through */}
+          <div style={{ background: 'rgba(5,8,22,0.88)', backdropFilter: 'blur(2px)' }}>
+            <About />
+            <Experience />
+            <Projects />
+            <Skills />
+            <Education />
+            <Contact />
+          </div>
+        </main>
+        <Footer />
+      </div>
     </div>
   )
 }
